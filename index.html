@@ -908,5 +908,150 @@ if (document.readyState === "loading") {
 } else {
   initializeWebsite();
 }
+</script>  
+<style>
+  #demo-checkout {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .demo-box {
+    width: 100%;
+    max-width: 380px;
+    padding: 25px;
+    border: 1px solid #9b4dff;
+    border-radius: 18px;
+    background: #130d20;
+    color: white;
+    box-shadow: 0 0 30px #7b2cff66;
+  }
+
+  .demo-box h2 {
+    color: #c084ff;
+    margin-top: 0;
+  }
+
+  .demo-warning {
+    padding: 12px;
+    background: #302044;
+    border-radius: 10px;
+    color: #e5caff;
+    font-size: 13px;
+  }
+
+  .demo-card {
+    padding: 18px;
+    margin: 18px 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #381078, #090612);
+    border: 1px solid #a855f7;
+  }
+
+  .demo-button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 9px;
+    background: #a855f7;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .demo-close {
+    background: #302044;
+  }
+
+  #demo-result {
+    color: #c084ff;
+    text-align: center;
+    font-weight: bold;
+  }
+</style>
+
+<div id="demo-checkout">
+  <div class="demo-box">
+    <h2>💜 WE1RD CHECKOUT</h2>
+
+    <p class="demo-warning">
+      DEMO ONLY — FAKE PAYMENT SYSTEM.
+      No real payment is processed. Never enter real card details.
+    </p>
+
+    <p id="demo-product">Selected item</p>
+    <h2 id="demo-price">€0.00</h2>
+
+    <div class="demo-card">
+      <p>💳 DEMO CARD</p>
+      <p>•••• •••• •••• 4242</p>
+      <p>TEST USER</p>
+      <small>FAKE DETAILS · NOT A REAL PAYMENT</small>
+    </div>
+
+    <button class="demo-button" id="demo-pay">
+      Simulate Demo Payment
+    </button>
+
+    <p id="demo-result" aria-live="polite"></p>
+
+    <button class="demo-button demo-close" id="demo-close">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const checkout = document.getElementById("demo-checkout");
+  const productText = document.getElementById("demo-product");
+  const priceText = document.getElementById("demo-price");
+  const result = document.getElementById("demo-result");
+
+  // Connect to both products using their data attributes.
+  document.querySelectorAll(
+    '.buy-button, [data-product][data-price]'
+  ).forEach(button => {
+    button.addEventListener("click", event => {
+      const name = button.dataset.product;
+      const price = button.dataset.price;
+
+      if (!name || !price) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      productText.textContent = "Item: " + name;
+      priceText.textContent = price;
+      result.textContent = "";
+      checkout.style.display = "flex";
+    }, true);
+  });
+
+  document.getElementById("demo-pay").addEventListener("click", () => {
+    result.textContent =
+      "✓ DEMO SUCCESS! No money was charged.";
+  });
+
+  document.getElementById("demo-close").addEventListener("click", () => {
+    checkout.style.display = "none";
+    result.textContent = "";
+  });
+
+  checkout.addEventListener("click", event => {
+    if (event.target === checkout) {
+      checkout.style.display = "none";
+    }
+  });
+})();
 </body>
 </html>
+  
